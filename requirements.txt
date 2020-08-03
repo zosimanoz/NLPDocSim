@@ -1,0 +1,5 @@
+Flask==1.1.2
+jsonpickle==1.4.1
+nltk==3.5
+gensim==3.8.3
+numpy==1.19.1

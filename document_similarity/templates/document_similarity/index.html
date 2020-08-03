@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<h1>Document Comparision</h1>
+
+<div class="divResult" style="background: teal; color:white; border: 1px solid black;display:none; margin: 20px">
+
+</div>
+
+<form>
+    <table>
+        <tr>
+            <td>Enter document text</td>
+            <td><textarea name="text_one" id="text_one" class="text_one" cols="100" rows="10"></textarea></td>
+        </tr>
+        <tr>
+            <td>Enter document text</td>
+            <td><textarea name="text_two" id="text_two" class="text_two" cols="100" rows="10"></textarea></td>
+        </tr>
+        <tr>
+            <td>Enter query text</td>
+            <td><textarea name="test_query" id="test_query" class="test_query" cols="100" rows="10"></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button type="button" id="btnCompare">Compare</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+$(function(){
+    $('#btnCompare').on('click', function(){
+        var text_one = $('#text_one').val();
+        var text_two = $('#text_two').val();
+        var test_query = $('#test_query').val();
+
+        var postData = {
+            text_one: text_one,
+            text_two: text_two,
+            test_query: test_query
+        }
+
+        $.ajax({
+            url: '/process',
+            type: 'POST',
+            data: JSON.stringify(postData),
+            contentType: 'application/json',
+            success: function(res) {
+                res_doc_1 = res.similarity_doc1 * 100
+                res_doc_2 = res.similarity_doc2 * 100
+
+                if(res_doc_1 >= 100)
+                    res_doc_1 = 100
+                if(res_doc_2 >= 100)
+                    res_doc_2 = 100
+
+                var html = '';
+                $('.divResult').show();
+                html += '<h3>Similarity with Document One: ' + res_doc_1 + '%'
+                html += '<h3>Similarity with Document Two: ' + res_doc_2 + '%'
+
+                $('.divResult').html(html)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
