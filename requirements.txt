@@ -1,6 +1,6 @@
 Flask==2.3.2
 jsonpickle==1.4.1
-nltk==3.5
+nltk==3.6.6
 gensim==3.8.3
 numpy~=1.19.1
 pip~=20.1.1
